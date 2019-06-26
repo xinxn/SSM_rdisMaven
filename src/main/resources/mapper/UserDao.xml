@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.UserDao">
+
+	<select id="queryByPhone" resultType="User">
+		SELECT *
+		FROM _user
+		WHERE 
+		user_phone= #{userPhone}
+	</select>
+	
+	<select id="queryAll" resultType="User">
+		select top ${offset}  * from (select row_number() over(order by user_id asc) 
+			as rownumber,* from _user) temp_row where rownumber>((#{limit}-1)*#{offset});
+		<!-- SELECT *
+		FROM _user
+		ORDER BY create_time DESC
+		limit #{offset},#{limit} -->
+	</select>
+
+
+   	<update id="addScore">
+		UPDATE _user 
+		SET 
+		score = score + #{add}
+	</update>
+
+</mapper>
